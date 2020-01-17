@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Apercu Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Apercu Bold'), url('./fonts/Apercu_Bold.woff') format('woff');
+  }
+  
+  @font-face {
+      font-family: 'Apercu Regular';
+      font-style: normal;
+      font-weight: normal;
+      src: local('Apercu Regular'), url('./fonts/Apercu_Regular.woff') format('woff');
+  }
+  
+  :root{
+      --cellSize: 36px;
+      --markSize: calc(var(--cellSize) * .9);
+      --backgroundColor: #15202B;
+      --winningMessageColor: rgba(241, 243, 255, .6);
+      --contentColor: #FFAD1F;
+      --hoverColor: #FFE0B8;
+  }

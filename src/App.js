@@ -114,9 +114,10 @@ const App = () => {
   const [circleTurn, setCircleTurn] = useState(false)
   const [showWinningMessage, setShowWinningMessage] = useState(false)
   const [winner, setWinner] = useState()
+  const [undoButtonIsTouched, setUndoButtonIsTouched] = useState(false)
   
-  const isDraw = cellState.every(cell => cell.cellClass === X_CLASS || cell.cellClass === O_CLASS) && !winner
   const currentClass = !circleTurn ? O_CLASS : X_CLASS
+  const isDraw = cellState.every(cell => cell.cellClass === X_CLASS || cell.cellClass === O_CLASS) && !winner
   const checkWin = WINNING_COMBINATIONS.some(combination => combination.every(index => cellState[index].cellClass === currentClass))
   
   const oScore = localStorage.getItem('oScore') || 0
@@ -133,7 +134,6 @@ const App = () => {
       } else if(winner === 'o') {
         localStorage.setItem('oScore', +oScore + 1)
       }
-      console.log(winner)
     }
   }, [isDraw, checkWin, currentClass, oScore, xScore, winner])
 
@@ -150,6 +150,7 @@ const App = () => {
   
       setCellState(newCellState)
       setCircleTurn(prev => !prev)
+      setUndoButtonIsTouched(false)
       localStorage.setItem('prevCell', JSON.stringify(cellState))
     }
   }
@@ -168,15 +169,18 @@ const App = () => {
   }
 
   const undoGame = () => {
-    setCellState(previousMove)
-    setCircleTurn(prev => !prev)
+    setUndoButtonIsTouched(true)
+    if(!cellState.every(cell => cell.cellClass === '') && !undoButtonIsTouched){
+      setCellState(previousMove)
+      setCircleTurn(prev => !prev)
+    }
   }
 
   return(
     <ThemeContext.Provider value={{theme: theme, isDark: isDark, themeChanger: themeChanger}}>
       <React.Fragment>
         <Helmet>
-        <meta name="theme-color" content={theme === 'dark' ? '#15202B' : '#4764E6'} />
+          <meta name="theme-color" content={theme === 'dark' ? '#15202B' : '#4764E6'} />
         </Helmet>
         <div className="buttons">
           <button onClick={undoGame}>Undo</button>
@@ -193,7 +197,8 @@ const App = () => {
                 key={cell.id} 
                 id={cell.id} 
                 className={`cell ${cell.cellClass}`}
-                onClick={() => handleClick(cell.id)}></div>
+                onClick={() => handleClick(cell.id)}>
+            </div>
           ))}
         </Board>
         <p className="credit">Credit: <br/><a href="https://www.youtube.com/watch?v=Y-GkMjUZsmM&t=1729s" target="_blank" rel="noopener noreferrer">Web Dev Simplified</a></p>

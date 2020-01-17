@@ -1,4 +1,5 @@
 import React from 'react'
+import './WinningMessage.css'
 
 const WinningMessage = (props) => (
     <div className={`winning-message ${props.show ? 'show' : undefined}`} id="winningMessage">

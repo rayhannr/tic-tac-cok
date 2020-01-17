@@ -1,4 +1,5 @@
 import React from 'react'
+import './Board.css'
 
 const Board = (props) => (
     <main>
@@ -6,6 +7,7 @@ const Board = (props) => (
             <h2>TIC-TAC-COK</h2>
             <p>Pemenangnya adalah yang pertama kali menghasilkan <br/> 5 simbolnya (X atau O) secara berurutan baik <br/>horizontal, vertikal, maupun diagonal.</p>
         </div>
+
         <div className="score">
             <div className="score__item">
                 <p>X : {props.xScore}</p>
@@ -16,6 +18,7 @@ const Board = (props) => (
                 <span className={props.circleTurn ? 'show' : undefined}>Giliran</span>
             </div>
         </div>
+
         <div className={`board ${props.circleTurn ? 'o' : 'x'}`} id="board">
             {props.children}
         </div>
