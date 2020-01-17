@@ -115,23 +115,25 @@ const App = () => {
   const [showWinningMessage, setShowWinningMessage] = useState(false)
   const [winner, setWinner] = useState()
   
-  const isDraw = cellState.every(cell => cell.cellClass === X_CLASS || cell.cellClass === O_CLASS)
+  const isDraw = cellState.every(cell => cell.cellClass === X_CLASS || cell.cellClass === O_CLASS) && !winner
   const currentClass = !circleTurn ? O_CLASS : X_CLASS
   const checkWin = WINNING_COMBINATIONS.some(combination => combination.every(index => cellState[index].cellClass === currentClass))
   
   const oScore = localStorage.getItem('oScore') || 0
   const xScore = localStorage.getItem('xScore') || 0
+  const previousMove = JSON.parse(localStorage.getItem('prevCell')) || cellState
 
   useEffect(() => {
     if(isDraw) setShowWinningMessage(true)
     if(checkWin) {
-      setShowWinningMessage(true)
       setWinner(currentClass)
+      setShowWinningMessage(true)
       if(winner === 'x'){
         localStorage.setItem('xScore', +xScore + 1)
       } else if(winner === 'o') {
         localStorage.setItem('oScore', +oScore + 1)
       }
+      console.log(winner)
     }
   }, [isDraw, checkWin, currentClass, oScore, xScore, winner])
 
@@ -148,6 +150,7 @@ const App = () => {
   
       setCellState(newCellState)
       setCircleTurn(prev => !prev)
+      localStorage.setItem('prevCell', JSON.stringify(cellState))
     }
   }
 
@@ -155,6 +158,7 @@ const App = () => {
     setShowWinningMessage(false)
     setCellState(prevCell => prevCell.map(cell => ({...cell, cellClass: ''})))
     setWinner(null)
+    localStorage.removeItem('prevCell')
   }
 
   const resetGame = () => {
@@ -163,14 +167,27 @@ const App = () => {
     localStorage.removeItem('oScore')
   }
 
+  const undoGame = () => {
+    setCellState(previousMove)
+    setCircleTurn(prev => !prev)
+  }
+
   return(
     <ThemeContext.Provider value={{theme: theme, isDark: isDark, themeChanger: themeChanger}}>
       <React.Fragment>
         <Helmet>
-        <meta name="theme-color" content={theme === 'dark' ? '#15202B' : '#F1F3FF'} />
+        <meta name="theme-color" content={theme === 'dark' ? '#15202B' : '#4764E6'} />
         </Helmet>
+        <div className="buttons">
+          <button onClick={undoGame}>Undo</button>
+          <button onClick={restartGame}>Restart</button>
+          <button onClick={resetGame}>Reset</button>
+        </div>
         <Toggler />
-        <Board circleTurn={circleTurn} xScore={xScore} oScore={oScore}>
+        <Board 
+          circleTurn={circleTurn}
+          xScore={xScore} 
+          oScore={oScore}>
           {cellState.map(cell => (
             <div 
                 key={cell.id} 
@@ -179,13 +196,12 @@ const App = () => {
                 onClick={() => handleClick(cell.id)}></div>
           ))}
         </Board>
-        <p className="credit">Credit: <br/><a href="https://www.youtube.com/watch?v=Y-GkMjUZsmM&t=1729s">Web Dev Simplified</a></p>
+        <p className="credit">Credit: <br/><a href="https://www.youtube.com/watch?v=Y-GkMjUZsmM&t=1729s" target="_blank" rel="noopener noreferrer">Web Dev Simplified</a></p>
         <WinningMessage 
           show={showWinningMessage} 
-          draw={isDraw} 
+          draw={isDraw}
           circleTurn={circleTurn} 
-          restart={restartGame}
-          reset={resetGame} />
+          restart={restartGame} />
       </React.Fragment>
     </ThemeContext.Provider>
   )

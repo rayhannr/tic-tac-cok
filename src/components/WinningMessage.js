@@ -1,10 +1,9 @@
 import React from 'react'
 
 const WinningMessage = (props) => (
-    <div className={`winning-message ${props.show && 'show'}`} id="winningMessage">
+    <div className={`winning-message ${props.show ? 'show' : undefined}`} id="winningMessage">
         <div>{props.draw ? 'Imbang!' : `${props.circleTurn ? 'X' : 'O'} menang!`} </div>
-        <button id="restartButton" onClick={props.restart}>Restart</button>
-        <button id="resetButton" onClick={props.reset}>Reset</button>
+        <button id="restartButton" onClick={props.restart}>Main Lagi</button>
     </div>
 )
 

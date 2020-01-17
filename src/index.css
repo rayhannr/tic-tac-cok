@@ -64,14 +64,26 @@ h2{
 
 .score{
   display: flex;
-  width: 120px;
+  width: 200px;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.score p{
+.score__item p{
   font-size: 20px;
   font-family: 'Apercu Bold';
+  margin-bottom: -5px;
+}
+
+.score__item span{
+  display: none;
+  font-family: 'Apercu Regular';
+  font-size: 13px;
+  margin: 0;
+}
+
+.score__item span.show{
+  display: inline-block;
 }
 
 .board{
@@ -376,9 +388,9 @@ h2{
 }
 
 .winning-message button:hover{
-    background-color: var(--contentColor);
+    background-color: var(--hoverColor);
     color: var(--backgroundColor);
-    border-color: var(--contentColor);
+    border-color: var(--hoverColor);
 }
 
 .credit{
@@ -394,6 +406,35 @@ h2{
   color: var(--contentColor);
 }
 
+.buttons{
+  position: absolute;
+  right: 10px;
+  top: 2px;
+}
+
+.buttons button{
+  background: var(--contentColor);
+  border: 1px solid var(--contentColor);
+  color: var(--backgroundColor);
+  font-size: 10px;
+  border-radius: 20px;
+  text-align: center;
+  font-family: 'Apercu Regular';
+  padding: 3px 5px;
+  margin-right: 4px;
+}
+
+.buttons button:last-child{
+  margin-right: 0px;
+}
+
+.buttons button:hover, .buttons button:focus, .buttons button:active{
+  background-color: var(--hoverColor);
+  border-color: var(--hoverColor);
+  outline: none;
+  cursor: pointer;
+}
+
 @media (min-width: 768px){
   .credit{
     font-size: 13px;
@@ -405,6 +446,16 @@ h2{
 
 @media (max-width: 767px){
   .title, .score, .board{
-    transform: translateY(-20px);
+    transform: translateY(-35px);
+  }
+
+  :root{
+    --cellSize: 28px;
+  }
+}
+
+@media (min-width: 1024px){
+  .score__item span.show{
+    display: none;
   }
 }
