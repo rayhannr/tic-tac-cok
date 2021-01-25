@@ -1,0 +1,75 @@
+@import './shared.css';
+
+*, *::after, *::before{
+  box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background-color: var(--backgroundColor);
+    transition: .2s;
+}
+
+button, div{
+  text-align: center;
+  color: var(--contentColor);
+  font-size: 20px;
+  font-family: 'Apercu Bold', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.credit{
+  position: absolute;
+  bottom: 10px;
+  margin: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+}
+
+.credit a{
+  color: var(--contentColor);
+}
+
+.buttons{
+  position: absolute;
+  right: 10px;
+  top: 2px;
+}
+
+.buttons button{
+  background: var(--contentColor);
+  border: 1px solid var(--contentColor);
+  color: var(--backgroundColor);
+  font-size: 10px;
+  border-radius: 20px;
+  text-align: center;
+  font-family: 'Apercu Regular';
+  padding: 3px 5px;
+  margin-right: 4px;
+}
+
+.buttons button:last-child{
+  margin-right: 0px;
+}
+
+.buttons button:hover, .buttons button:focus, .buttons button:active{
+  background-color: var(--hoverColor);
+  border-color: var(--hoverColor);
+  outline: none;
+  cursor: pointer;
+}
+
+@media (min-width: 768px){
+  .credit{
+    font-size: 13px;
+  }
+  .credit br{
+    display: none;
+  }
+}
+
+@media (max-width: 767px){
+  :root{
+    --cellSize: 28px;
+  }
+}
